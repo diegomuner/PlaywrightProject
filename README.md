@@ -16,8 +16,19 @@ npx playwright test filename --debug              this will run the test in debu
 
 
 
+
+Traces - These work as recording of steps execution with screenshots
 You can execute a test or tests and save the trace
 
 See the trace: https://trace.playwright.dev/
+You can also go to the folder where traces are stored and run: npx playwright show-trace trace.zip
+
 
 Force trace: npx playwright test --trace on
+
+Or also : 
+    trace: 'on-first-retry'
+    trace: 'on' 
+in the playwright.config.ts file.
+ 
+

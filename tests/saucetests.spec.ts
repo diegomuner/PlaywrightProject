@@ -1,7 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { SwagLabsHome } from '../page_objects/SwagLabsHome';
 import { SwagLabsLogin } from '../page_objects/SwagLabsLogin';
-import { chromium, Browser, Page } from '@playwright/test';
 
 
 let password = 'secret_sauce';
@@ -9,14 +8,15 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms)) //implicit w
 
 // Login Tests
 
-/// TRYING TO SHARE PAGE OBJECT ACROSS MULTIPLE TESTS
 
-test.describe('One browser instance tests', () => {
+/// TRYING TO SHARE PAGE OBJECT ACROSS MULTIPLE TESTS
+test.describe('one browser instance tests', () => { 
 
     test.describe.configure({ mode: 'serial' });
     let page: Page;
     let swagLabsLogin: SwagLabsLogin;
     let swagLabsHome: SwagLabsHome;
+    
     // Before and After suite hooks
     
     test.beforeAll(async ({ browser }) => {
@@ -32,21 +32,18 @@ test.describe('One browser instance tests', () => {
     // Tests that run in Serial mode
     test('verify login page elements', async () => {
         await swagLabsLogin.goto();
+        await expect(page).toHaveTitle(/Swag Labs/)
         await swagLabsLogin.verifyAllElements();
     });
 
     test('login with blocked user', async () => {
         await swagLabsLogin.login('locked_out_user',password);
         await swagLabsLogin.checkLoginError();
-        await delay(2000);
     })
 
 
     test('login successfully with on screen password', async () => {
-        await delay(2000);
         await swagLabsLogin.loginUsingOnScreenPassword();
-        await delay(2000);
-
     })
     
     test('logout from the swaglabs site', async () => {  
@@ -74,10 +71,8 @@ test('add every product to the cart', async ({page}) => {
     await swagLabsLogin.goto();
     await swagLabsLogin.login('standard_user',password);
     await swagLabsHome.addAllToCart();
-    const delay = ms => new Promise(resolve => setTimeout(resolve, ms)) //implicit wait, not needed at all but trying it out here
-    await delay(2000);
+    await delay(2000);  //This is 100% not needed,but trying out the delay.
     
-
 }); 
 
 

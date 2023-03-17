@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+const { loginData } = require('../data/loginData.json'); //Reading from json file with test data
+
 
 test.beforeEach(async ({ page }, testInfo) => {
     // Go to the starting url before each test.
@@ -8,6 +10,23 @@ test.beforeEach(async ({ page }, testInfo) => {
     
     }
   });
+
+
+ 
+  for (const data of loginData) {
+    test(`Login with ${data.username}`, async ({ page }) => {
+
+      await expect(page).toHaveTitle(/Swag Labs/)
+      await page.locator('[data-test="username"]').click();
+      await page.locator('[data-test="username"]').fill(data.username);
+      console.log(data.username);
+      await page.locator('[data-test="password"]').click();
+      await page.locator('[data-test="password"]').fill(data.password);
+      await page.locator('[data-test="login-button"]').click();
+    });
+  }
+
+
 
 
 test('has title', async ({page}, testInfo) => {
