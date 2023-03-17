@@ -13,3 +13,11 @@ npx playwright test filename                      this runs the spec file by nam
 npx playwright test                               this runs all spec files
 npx playwright codegen                            this opens a tool that helps creating tests by writing the locators and actions for them to be copy pasted into your class
 npx playwright test filename --debug              this will run the test in debug mode
+
+
+
+You can execute a test or tests and save the trace
+
+See the trace: https://trace.playwright.dev/
+
+Force trace: npx playwright test --trace on

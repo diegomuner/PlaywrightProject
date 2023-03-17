@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { SwagLabsBasePage } from './SwagLabsBasePage';
 
-export class SwagLabsHome {
+export class SwagLabsHome extends SwagLabsBasePage{
 
 //Locators
 readonly page : Page;
@@ -19,11 +20,10 @@ readonly slFleeceJacketAdd : Locator;
 readonly slOnesieAdd : Locator;
 readonly allThingsRedShirtAdd : Locator;
 
-
-
-
+// Constructor
 constructor(page: Page){
 
+super(page);
 this.page= page;
 this.leftTitle = page.getByText('Products');
 this.shopCart = page.locator('#shopping_cart_container a')
@@ -36,7 +36,7 @@ this.allThingsRedShirtAdd = page.locator('[data-test="add-to-cart-test\\.allthet
 
 }
 
-
+// Functions
 async addAllToCart(){
 await this.slBackpackAdd.click();
 await this.slBikeLightAdd.click();
