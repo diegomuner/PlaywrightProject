@@ -6,7 +6,6 @@ export class SwagLabsBasePage{
 //Sliding left menu
 readonly page : Page;
 readonly openMenu : Locator;
-
 readonly xButton : Locator;
 readonly allItems : Locator;
 readonly about : Locator;

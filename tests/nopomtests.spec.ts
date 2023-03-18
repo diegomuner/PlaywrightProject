@@ -12,7 +12,8 @@ test.beforeEach(async ({ page }, testInfo) => {
   });
 
 
- 
+ //for loop so the test is called 1 time per set of data in the Json file
+ //test has no assertions or anything, its here just to check that the test runs with different sets of data.
   for (const data of loginData) {
     test(`Login with ${data.username}`, async ({ page }) => {
 

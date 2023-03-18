@@ -32,6 +32,20 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+
+
+    // APIS CONFIG
+    // All requests we send go to this API endpoint.
+    baseURL: 'https://api-production.bln.hm',
+    extraHTTPHeaders: {
+      // We set this header per GitHub guidelines.
+      'Accept': 'application/vnd.github.v3+json',
+      // Add authorization token to all requests.
+      // Assuming personal access token available in the environment.
+      'Authorization': `token ${process.env.API_TOKEN}`,
+    },
+    // END APIS CONFIG
+
     headless: true,
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
@@ -89,4 +103,8 @@ export default defineConfig({
   //   command: 'npm run start',
   //   port: 3000,
   // },
+
+
+
+  
 });
