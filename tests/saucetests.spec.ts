@@ -54,31 +54,72 @@ test.describe('one browser instance tests', () => {
 })
 
 
-// REGULAR ISOLATED TESTS
 
-test('login to swag labs successfully', async ({page}) => {
+
+
+// Regular isolated test
+test('login to swag labs successfully', async ({page},testInfo) => {
     const swagLabsLogin = new SwagLabsLogin(page);
     await swagLabsLogin.goto();
     await swagLabsLogin.login('standard_user',password);
+    console.log(testInfo.status);
 }); 
 
 
 // HomePage Tests
 
-test('add every product to the cart', async ({page}) => { 
-    const swagLabsLogin = new SwagLabsLogin(page);
-    const swagLabsHome = new SwagLabsHome(page);
-    await swagLabsLogin.goto();
-    await swagLabsLogin.login('standard_user',password);
-    await swagLabsHome.addAllToCart();
-    await delay(2000);  //This is 100% not needed,but trying out the delay.
+
+//2nd suite
+test.describe('cart tests', () => { 
+
+    test.describe.configure({ mode: 'serial' });
+    let page: Page;
+    let swagLabsLogin: SwagLabsLogin;
+    let swagLabsHome: SwagLabsHome;
+
+    // Before and After suite hooks
     
-}); 
+    test.beforeAll(async ({ browser }) => {
+        page = await browser.newPage();
+        swagLabsLogin = new SwagLabsLogin(page);
+        swagLabsHome = new SwagLabsHome(page);
+    });
+
+    test.afterAll(async () => {
+        await page.close();
+    });
 
 
-//cuando agregas productos los botones quedan con remove asique despues del test anterior podria haber otro test que sea para remover todo
+    test('add every product to the cart', async () => { 
+        await swagLabsLogin.goto();
+        await swagLabsLogin.login('standard_user',password);
+        await swagLabsHome.addAllToCart();
+        await delay(2000);  //This is 100% not needed,but trying out the delay.
+        
+    }); 
 
-// usando el mismo test como base se puede avanzar y hacer checkout tmb
+    test('remove all products from cart', async () =>{
+        await swagLabsHome.goToCart();
+        await swagLabsHome.removeAllProducts();
+        await swagLabsHome.continueShopping();
+    });
+
+    test('remove all products from homepage', async() =>{
+        await swagLabsHome.addAllToCart();
+        await swagLabsHome.removeAllProducts();
+
+
+
+    })
+
+
+
+
+});
+
+
+
+
 
 
 
