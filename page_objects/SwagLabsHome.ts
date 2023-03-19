@@ -91,14 +91,7 @@ async goToCart(){
 async doCheckout(){
     await this.checkoutButton.click();
 
-  
 }
-
-
-
-
-
-
 }
 
 

@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 import { SwagLabsCheckout } from '../page_objects/SwagLabsCheckout';
 import { SwagLabsHome } from '../page_objects/SwagLabsHome';
 import { SwagLabsLogin } from '../page_objects/SwagLabsLogin';
+import * as helpers from '../helpers/functions';
 
 
 let password = 'secret_sauce';
@@ -106,8 +107,6 @@ test.describe('cart tests', () => {
         await swagLabsHome.addAllToCart();
         await swagLabsHome.removeAllProducts();
 
-
-
     })
 
 });
@@ -117,7 +116,7 @@ test ('Checkout info screen buttons test', async ({page}) =>{
     let swagLabsLogin = new SwagLabsLogin(page);
     let swagLabsHome = new SwagLabsHome(page);
     let swagLabsCheckout = new SwagLabsCheckout(page);
-
+    let userData = helpers.generateUserData();  //Object
 
     await swagLabsLogin.goto();
     await swagLabsLogin.login('standard_user',password);
@@ -127,7 +126,7 @@ test ('Checkout info screen buttons test', async ({page}) =>{
     await swagLabsCheckout.verifyInCheckout();
     await swagLabsCheckout.cancelCheckout();
     await swagLabsHome.doCheckout();
-    await swagLabsCheckout.completeCheckOutInfo();
+    await swagLabsCheckout.completeCheckOutInfo(userData.firstName, userData.lastName, userData.zipCode);
     await swagLabsCheckout.continueCheckout();
 
     
@@ -138,6 +137,8 @@ test ('test faker', async ({page}) =>{
     let swagLabsLogin = new SwagLabsLogin(page);
     let swagLabsHome = new SwagLabsHome(page);
     let swagLabsCheckout = new SwagLabsCheckout(page);
+    let userData = helpers.generateUserData();  //Object
+
 
 
     await swagLabsLogin.goto();
@@ -146,7 +147,16 @@ test ('test faker', async ({page}) =>{
     await swagLabsHome.goToCart();
     await swagLabsHome.doCheckout();
     await swagLabsCheckout.verifyInCheckout();
-    await swagLabsCheckout.completeCheckOutInfo();
+    await swagLabsCheckout.completeCheckOutInfo(userData.firstName, userData.lastName, userData.zipCode);
+    await swagLabsCheckout.continueCheckout();
+
+
+    await expect(swagLabsCheckout.checkOutCancel).toBeVisible();
+    await swagLabsCheckout.verifyTotalAmount();
+
+    
+
+
 });
 
 

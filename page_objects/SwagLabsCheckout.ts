@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { SwagLabsBasePage } from './SwagLabsBasePage';
-import * as helpers from '../helpers/functions';
+import { CartItem } from './../data/cart-item.interface';
 
 export class SwagLabsCheckout extends SwagLabsBasePage{
 
@@ -24,14 +24,9 @@ readonly checkoutItemTotal : Locator;
 readonly checkoutItemTax : Locator;
 readonly checkoutTotal : Locator;
 
-
-// Product remove from cart
-
+//
 
 constructor(page: Page){
-
-    // let totalPrice = 0;   revisar esot
-
 
     super(page);
     this.page= page;
@@ -43,16 +38,14 @@ constructor(page: Page){
     this.checkOutCancel = page.locator('[data-test="cancel"]');   
     this.checkoutContinue = page.locator('[data-test="continue"]');   
     //overview
-    this.checkoutProductsTable = page.locator('#checkout_summary_container');
+    this.checkoutProductsTable = page.locator('#cart_contents_container');
     this.checkoutPaymentInfo = page.getByText('SauceCard #31337');
     this.checkoutShippingInfo = page.getByText('Free Pony Express Delivery!');
-    //this.checkoutItemTotal = page.locator('[data-test="continue"]');
+   
+    this.checkoutItemTotal = page.locator('.summary_subtotal_label');
     //this.checkoutItemTax = page.locator('[data-test="continue"]');
     // this.checkoutTotal = page.getByText(`Total: $ ${totalPrice}`
                        
-                       //estos 2 aparte
-                       
-    
 }
 
 //Functions
@@ -65,15 +58,11 @@ async verifyInCheckout(){
     await expect(this.checkoutContinue).toBeVisible();
 }
 
-async completeCheckOutInfo(){
+async completeCheckOutInfo(firstName:string, lastName:string, zipCode:string){
 
-    let userData = helpers.generateUserData();  //Object
-   
-    await this.checkoutFirstName.fill(userData.firstName);
-    await this.checkoutLastName.fill(userData.lastName);
-    await this.checkoutZipCode.fill(userData.zipCode);
-    console.log(userData);
-
+    await this.checkoutFirstName.fill(firstName);
+    await this.checkoutLastName.fill(lastName);
+    await this.checkoutZipCode.fill(zipCode);
 
 }
 
@@ -87,6 +76,60 @@ async cancelCheckout(){
 
 }
 
+private async calculateCartTotal() {
+    const cartItems: CartItem[] = [];
+     // Get all cart item elements and loop through them
+    const cartItemElements = await this.page.$$('.cart_item');
+    for (const cartItemElement of cartItemElements) {
+        const quantity = await cartItemElement.$eval('.cart_quantity', el => parseInt(el.textContent!));
+        const itemName = await cartItemElement.$eval('.inventory_item_name', el => el.textContent!);
+        const itemPrice = await cartItemElement.$eval('.cart_item_label .inventory_item_price', el => parseFloat(el.textContent!.replace(/\$/g, '')));
+        cartItems.push({ quantity, itemName, itemPrice });
+    }
+    
+    const itemCostMap = new Map<string, number>();
+    for (const cartItem of cartItems) {
+        const { quantity, itemName, itemPrice } = cartItem;
+        const itemCost = quantity * itemPrice;
+        if (itemCostMap.has(itemName)) {
+        itemCostMap.set(itemName, itemCostMap.get(itemName)! + itemCost);
+        } else {
+        itemCostMap.set(itemName, itemCost);
+        }
+    }
+    let total = 0;
+    for (const itemCost of itemCostMap.values()) {
+        total += itemCost;
+    }
+  console.log("Cart Total from elements in screen is: " + total);
+  return total;
+ 
+}
+
+async verifyTotalAmount(){
+    const calculatedTotalAmount = await this.calculateCartTotal();
+    
+    //capture the total amount from the page as string and convert to float using a regular expresion
+    const stringTotalAmount = await this.checkoutItemTotal.textContent();
+    const match = stringTotalAmount.match(/\d+\.\d+/);
+    const value = match ? parseFloat(match[0]) : 0;
+    console.log(value);
+    console.log('totalAmount is:' + value)
+    console.log('totalAmount from previous function is: ' + calculatedTotalAmount)
+    if (calculatedTotalAmount === value){
+        console.log('Amounts match');
+
+    } else {
+        console.log('Amounts do not match')
+
+    }
+}
+
+
 
 
 }
+  
+
+ 
+
