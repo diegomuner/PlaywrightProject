@@ -30,5 +30,5 @@ Or also :
     trace: 'on-first-retry'
     trace: 'on' 
 in the playwright.config.ts file.
- 
+
 

@@ -1,4 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
+import { SwagLabsCheckout } from '../page_objects/SwagLabsCheckout';
 import { SwagLabsHome } from '../page_objects/SwagLabsHome';
 import { SwagLabsLogin } from '../page_objects/SwagLabsLogin';
 
@@ -52,9 +53,6 @@ test.describe('one browser instance tests', () => {
     });
 
 })
-
-
-
 
 
 // Regular isolated test
@@ -112,9 +110,27 @@ test.describe('cart tests', () => {
 
     })
 
+});
 
 
+test ('Checkout info screen buttons test', async ({page}) =>{
+    let swagLabsLogin = new SwagLabsLogin(page);
+    let swagLabsHome = new SwagLabsHome(page);
+    let swagLabsCheckout = new SwagLabsCheckout(page);
 
+
+    await swagLabsLogin.goto();
+    await swagLabsLogin.login('standard_user',password);
+    await swagLabsHome.addAllToCart();
+    await swagLabsHome.goToCart();
+    await swagLabsHome.doCheckout();
+    await swagLabsCheckout.verifyInCheckout();
+    await swagLabsCheckout.cancelCheckout();
+    await swagLabsHome.doCheckout();
+    await swagLabsCheckout.completeCheckOutInfo();
+    await swagLabsCheckout.continueCheckout();
+
+    
 });
 
 
