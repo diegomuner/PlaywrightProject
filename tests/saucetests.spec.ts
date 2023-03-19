@@ -134,6 +134,22 @@ test ('Checkout info screen buttons test', async ({page}) =>{
 });
 
 
+test ('test faker', async ({page}) =>{
+    let swagLabsLogin = new SwagLabsLogin(page);
+    let swagLabsHome = new SwagLabsHome(page);
+    let swagLabsCheckout = new SwagLabsCheckout(page);
+
+
+    await swagLabsLogin.goto();
+    await swagLabsLogin.login('standard_user',password);
+    await swagLabsHome.addAllToCart();
+    await swagLabsHome.goToCart();
+    await swagLabsHome.doCheckout();
+    await swagLabsCheckout.verifyInCheckout();
+    await swagLabsCheckout.completeCheckOutInfo();
+});
+
+
 
 
 

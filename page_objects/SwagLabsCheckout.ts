@@ -1,8 +1,8 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { SwagLabsBasePage } from './SwagLabsBasePage';
+import * as helpers from '../helpers/functions';
 
 export class SwagLabsCheckout extends SwagLabsBasePage{
-
 
 
 //Locators
@@ -23,9 +23,6 @@ readonly checkoutShippingInfo : Locator;
 readonly checkoutItemTotal : Locator;
 readonly checkoutItemTax : Locator;
 readonly checkoutTotal : Locator;
-
-
-
 
 
 // Product remove from cart
@@ -69,9 +66,15 @@ async verifyInCheckout(){
 }
 
 async completeCheckOutInfo(){
-    await this.checkoutFirstName.fill('test');
-    await this.checkoutLastName.fill('last name');
-    await this.checkoutZipCode.fill('1234');
+
+    let userData = helpers.generateUserData();  //Object
+   
+    await this.checkoutFirstName.fill(userData.firstName);
+    await this.checkoutLastName.fill(userData.lastName);
+    await this.checkoutZipCode.fill(userData.zipCode);
+    console.log(userData);
+
+
 }
 
 async continueCheckout(){
