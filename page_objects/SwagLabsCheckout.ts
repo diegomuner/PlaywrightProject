@@ -1,9 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { SwagLabsBasePage } from './SwagLabsBasePage';
 import { CartItem } from './../data/cart-item.interface';
+import * as helpers from '../helpers/functions';
 
 export class SwagLabsCheckout extends SwagLabsBasePage{
-
 
 //Locators
 readonly page : Page;
@@ -15,7 +15,6 @@ readonly checkoutZipCode : Locator;
 readonly checkOutCancel : Locator;
 readonly checkoutContinue : Locator;
 
-
 //Checkout Overview
 readonly checkoutProductsTable : Locator;
 readonly checkoutPaymentInfo : Locator;
@@ -23,6 +22,11 @@ readonly checkoutShippingInfo : Locator;
 readonly checkoutItemTotal : Locator;
 readonly checkoutItemTax : Locator;
 readonly checkoutTotal : Locator;
+readonly checkoutTaxAmount : Locator;
+
+
+readonly finishButton : Locator;
+readonly backHomeButton : Locator;
 
 //
 
@@ -43,8 +47,10 @@ constructor(page: Page){
     this.checkoutShippingInfo = page.getByText('Free Pony Express Delivery!');
    
     this.checkoutItemTotal = page.locator('.summary_subtotal_label');
-    //this.checkoutItemTax = page.locator('[data-test="continue"]');
     // this.checkoutTotal = page.getByText(`Total: $ ${totalPrice}`
+    this.finishButton = page.locator('[data-test="finish"]');
+    this.backHomeButton = page.locator('[data-test="back-to-products"]');
+    this.checkoutTaxAmount = page.locator('.summary_tax_label');
                        
 }
 
@@ -86,6 +92,8 @@ private async calculateCartTotal() {
         const itemPrice = await cartItemElement.$eval('.cart_item_label .inventory_item_price', el => parseFloat(el.textContent!.replace(/\$/g, '')));
         cartItems.push({ quantity, itemName, itemPrice });
     }
+
+    console.log(cartItems);
     
     const itemCostMap = new Map<string, number>();
     for (const cartItem of cartItems) {
@@ -101,6 +109,8 @@ private async calculateCartTotal() {
     for (const itemCost of itemCostMap.values()) {
         total += itemCost;
     }
+
+    console.log(itemCostMap);
   console.log("Cart Total from elements in screen is: " + total);
   return total;
  
@@ -110,13 +120,13 @@ async verifyTotalAmount(){
     const calculatedTotalAmount = await this.calculateCartTotal();
     
     //capture the total amount from the page as string and convert to float using a regular expresion
-    const stringTotalAmount = await this.checkoutItemTotal.textContent();
-    const match = stringTotalAmount.match(/\d+\.\d+/);
-    const value = match ? parseFloat(match[0]) : 0;
-    console.log(value);
-    console.log('totalAmount is:' + value)
+
+    const stringTotalAmount= await helpers.getNumberFromString(await this.checkoutItemTotal.textContent());
+
+    console.log(stringTotalAmount);
+    console.log('totalAmount is:' + stringTotalAmount)
     console.log('totalAmount from previous function is: ' + calculatedTotalAmount)
-    if (calculatedTotalAmount === value){
+    if (calculatedTotalAmount === stringTotalAmount){
         console.log('Amounts match');
 
     } else {
@@ -126,6 +136,28 @@ async verifyTotalAmount(){
 }
 
 
+async verifyTaxAndTotal(){
+    
+    const value =  await helpers.getNumberFromString(await this.checkoutItemTotal.textContent());
+    const taxFromTotal = value * 0.08;
+    const valueTax = await helpers.getNumberFromString(await this.checkoutTaxAmount.textContent());
+    console.log(Math.round(taxFromTotal*10)/10);
+
+    console.log(valueTax);
+    if (valueTax === Math.round(taxFromTotal*10)/10 ){
+
+        console.log('coinciden')
+    } else {
+        console.log('el tax esta mal amigo')
+    }
+}
+
+async finishCheckout(){
+    await this.finishButton.click();
+    expect(this.backHomeButton).toBeVisible;
+    await this.backHomeButton.click();
+    
+}
 
 
 }

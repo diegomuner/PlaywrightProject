@@ -16,6 +16,7 @@ test.describe('one browser instance tests', () => {
 
     test.describe.configure({ mode: 'serial' });
     let page: Page;
+    //Declare page objects
     let swagLabsLogin: SwagLabsLogin;
     let swagLabsHome: SwagLabsHome;
     
@@ -23,6 +24,8 @@ test.describe('one browser instance tests', () => {
     
     test.beforeAll(async ({ browser }) => {
         page = await browser.newPage();
+
+        // Instantiate the page objects
         swagLabsLogin = new SwagLabsLogin(page);
         swagLabsHome = new SwagLabsHome(page);
     });
@@ -111,36 +114,11 @@ test.describe('cart tests', () => {
 
 });
 
-
-test ('Checkout info screen buttons test', async ({page}) =>{
+test ('checkout with faker data and all products', async ({page}) =>{
     let swagLabsLogin = new SwagLabsLogin(page);
     let swagLabsHome = new SwagLabsHome(page);
     let swagLabsCheckout = new SwagLabsCheckout(page);
     let userData = helpers.generateUserData();  //Object
-
-    await swagLabsLogin.goto();
-    await swagLabsLogin.login('standard_user',password);
-    await swagLabsHome.addAllToCart();
-    await swagLabsHome.goToCart();
-    await swagLabsHome.doCheckout();
-    await swagLabsCheckout.verifyInCheckout();
-    await swagLabsCheckout.cancelCheckout();
-    await swagLabsHome.doCheckout();
-    await swagLabsCheckout.completeCheckOutInfo(userData.firstName, userData.lastName, userData.zipCode);
-    await swagLabsCheckout.continueCheckout();
-
-    
-});
-
-
-test ('test faker', async ({page}) =>{
-    let swagLabsLogin = new SwagLabsLogin(page);
-    let swagLabsHome = new SwagLabsHome(page);
-    let swagLabsCheckout = new SwagLabsCheckout(page);
-    let userData = helpers.generateUserData();  //Object
-
-
-
     await swagLabsLogin.goto();
     await swagLabsLogin.login('standard_user',password);
     await swagLabsHome.addAllToCart();
@@ -149,12 +127,12 @@ test ('test faker', async ({page}) =>{
     await swagLabsCheckout.verifyInCheckout();
     await swagLabsCheckout.completeCheckOutInfo(userData.firstName, userData.lastName, userData.zipCode);
     await swagLabsCheckout.continueCheckout();
-
 
     await expect(swagLabsCheckout.checkOutCancel).toBeVisible();
     await swagLabsCheckout.verifyTotalAmount();
-
-    
+    await swagLabsCheckout.verifyTaxAndTotal();
+    await swagLabsCheckout.finishCheckout();
+   
 
 
 });

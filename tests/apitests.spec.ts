@@ -4,7 +4,7 @@ import * as helpers from '../helpers/functions';
 
 
 //The purpose of these tests is to just call an API and validate its response.
-test('should do a GET to public api', async ({ request }, testInfo) => {
+test('should do a GET to public api', async ({ request }) => {
     const newRequest = await request.get('/homes?availability=available');
     const responseBody = await newRequest.json();
     const items = responseBody.items;
@@ -13,7 +13,7 @@ test('should do a GET to public api', async ({ request }, testInfo) => {
     const randomIndex = helpers.getRandomInt(1,items.length)
     const city = items[randomIndex].basicInfo.address.city;
     await expect(city==null).toBeFalsy();
-
+    
 });
 
 // This test performs a get by calling the apiGet function defined in functions.ts
@@ -23,3 +23,6 @@ test ('do a get by calling apiGet function', async({ request }) => {
        const city = items[1];
        await expect(city==null).toBeFalsy();
 });
+
+
+

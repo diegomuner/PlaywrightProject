@@ -39,7 +39,7 @@ await expect(page).toHaveTitle(/Swag Labs/);
 
 test('login using given credentials', async ({ page }, testInfo) => {
 
-    console.log(testInfo.title);
+  console.log(testInfo.title);
   await expect(page).toHaveTitle(/Swag Labs/)
   await page.locator('[data-test="username"]').click();
   await page.locator('[data-test="username"]').fill('standard_user');
