@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 const { loginData } = require('../data/loginData.json'); //Reading from json file with test data
 
+// This test class does not use page object model, instead we do everything in the test
 
 test.beforeEach(async ({ page }, testInfo) => {
     // Go to the starting url before each test.
@@ -20,14 +21,11 @@ test.beforeEach(async ({ page }, testInfo) => {
       await expect(page).toHaveTitle(/Swag Labs/)
       await page.locator('[data-test="username"]').click();
       await page.locator('[data-test="username"]').fill(data.username);
-      console.log(data.username);
       await page.locator('[data-test="password"]').click();
       await page.locator('[data-test="password"]').fill(data.password);
       await page.locator('[data-test="login-button"]').click();
     });
   }
-
-
 
 
 test('has title', async ({page}, testInfo) => {

@@ -93,8 +93,6 @@ private async calculateCartTotal() {
         cartItems.push({ quantity, itemName, itemPrice });
     }
 
-    console.log(cartItems);
-    
     const itemCostMap = new Map<string, number>();
     for (const cartItem of cartItems) {
         const { quantity, itemName, itemPrice } = cartItem;
@@ -110,22 +108,15 @@ private async calculateCartTotal() {
         total += itemCost;
     }
 
-    console.log(itemCostMap);
-  console.log("Cart Total from elements in screen is: " + total);
-  return total;
+    //return the sum of all items
+    return total;
  
 }
 
 async verifyTotalAmount(){
     const calculatedTotalAmount = await this.calculateCartTotal();
-    
     //capture the total amount from the page as string and convert to float using a regular expresion
-
     const stringTotalAmount= await helpers.getNumberFromString(await this.checkoutItemTotal.textContent());
-
-    console.log(stringTotalAmount);
-    console.log('totalAmount is:' + stringTotalAmount)
-    console.log('totalAmount from previous function is: ' + calculatedTotalAmount)
     if (calculatedTotalAmount === stringTotalAmount){
         console.log('Amounts match');
 
@@ -135,20 +126,16 @@ async verifyTotalAmount(){
     }
 }
 
-
 async verifyTaxAndTotal(){
     
     const value =  await helpers.getNumberFromString(await this.checkoutItemTotal.textContent());
     const taxFromTotal = value * 0.08;
     const valueTax = await helpers.getNumberFromString(await this.checkoutTaxAmount.textContent());
-    console.log(Math.round(taxFromTotal*10)/10);
-
-    console.log(valueTax);
     if (valueTax === Math.round(taxFromTotal*10)/10 ){
 
-        console.log('coinciden')
+        console.log('Tax amount is right')
     } else {
-        console.log('el tax esta mal amigo')
+        console.log('Tax amount is incorrect')
     }
 }
 

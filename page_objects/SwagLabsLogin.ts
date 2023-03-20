@@ -44,13 +44,12 @@ async login(user:string, password:string){
 
 async loginUsingOnScreenPassword(){
 
-        let secretSaucePassword;
+        let secretSaucePassword : string;
         // capture password from screen
         let passwordString = await this.acceptedPasswords.textContent(); //await because this returns a promise
         if (passwordString !== null) {
         let passwordArray = passwordString.split(':');    // without the if to check for null, code complains about the chance for passwordString being null
         secretSaucePassword = passwordArray[1].trim();
-        console.log(secretSaucePassword);
         } else { 
         console.error('Password string is null');
         }
@@ -63,8 +62,6 @@ async loginUsingOnScreenPassword(){
         // TODO add checks or assertions to end the test
 
 }
-
-
 
 async checkLoginError(){
 
@@ -81,15 +78,5 @@ async verifyAllElements() {
     await expect(this.acceptedUserNames).toBeVisible();
     await expect(this.loginButton).toBeVisible();
 }
-
-async verifyProductDescription(){
-
-//TODO
-
-
-}
-
-
-
 
 }

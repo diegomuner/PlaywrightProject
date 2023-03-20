@@ -11,7 +11,7 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms)) //implicit w
 // Login Tests
 
 
-/// TRYING TO SHARE PAGE OBJECT ACROSS MULTIPLE TESTS
+/// SHARE PAGE OBJECT ACROSS MULTIPLE TESTS
 test.describe('one browser instance tests', () => { 
 
     test.describe.configure({ mode: 'serial' });
