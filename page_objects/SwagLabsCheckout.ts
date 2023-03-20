@@ -45,9 +45,7 @@ constructor(page: Page){
     this.checkoutProductsTable = page.locator('#cart_contents_container');
     this.checkoutPaymentInfo = page.getByText('SauceCard #31337');
     this.checkoutShippingInfo = page.getByText('Free Pony Express Delivery!');
-   
     this.checkoutItemTotal = page.locator('.summary_subtotal_label');
-    // this.checkoutTotal = page.getByText(`Total: $ ${totalPrice}`
     this.finishButton = page.locator('[data-test="finish"]');
     this.backHomeButton = page.locator('[data-test="back-to-products"]');
     this.checkoutTaxAmount = page.locator('.summary_tax_label');
