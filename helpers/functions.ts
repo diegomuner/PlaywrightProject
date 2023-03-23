@@ -27,3 +27,24 @@ export async function getNumberFromString(text:string){
     const value = match ? parseFloat(match[0]) : 0;
     return value;
 }
+
+
+
+export function removeEmptyValues(obj) {
+    const keys = Object.keys(obj);
+  
+    for (const key of keys) {
+      const value = obj[key];
+  
+      if (value === 'N/A' || value === '-' || value === '') {
+        delete obj[key];
+      } else if (Array.isArray(value)) {
+        const filteredArray = value.filter(item => item !== 'N/A' && item !== '-' && item !== '');
+        obj[key] = filteredArray;
+      } else if (typeof value === 'object') {
+        obj[key] = removeEmptyValues(value);
+      }
+    }
+  
+    return obj;
+  }
