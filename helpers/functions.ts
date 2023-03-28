@@ -8,8 +8,16 @@ export  function getRandomInt(min: number, max: number): number {
 // This is to try and do a get in a test spec passing url as an argument
 export async function apiGet(request: APIRequestContext, url: string){
     const newRequest = await request.get(url);
+
+    if (newRequest.status()===200){
+    console.log('request was successfull')  
     const responseBody = await newRequest.json();
     return responseBody;
+} else {
+  console.log('request did not succeed')
+}
+
+
 }
 
 // Generate test data with Faker
@@ -29,7 +37,7 @@ export async function getNumberFromString(text:string){
 }
 
 
-
+//function for coderbyte challenge 2
 export function removeEmptyValues(obj) {
     const keys = Object.keys(obj);
   

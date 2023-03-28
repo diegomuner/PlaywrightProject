@@ -66,7 +66,6 @@ test ('coderbyte challenge number 1', async({ request }) => {
 
     console.log("the count of ages over 50 years is " + count);
 
-
     let reverseToken =  challengeToken.split('').reverse().join('');
     let reverseCount = (count.toString()).split('').reverse().join('');
 
@@ -90,9 +89,6 @@ test ('coderbyte challenge number 2', async({ request }) => {
         const responseBody = await helpers.apiGet(request, 'https://coderbyte.com/api/challenges/json/json-cleaning');
         const keys = Object.keys(responseBody);
       
-        
-
-
         for (const key of keys) {
           const value = responseBody[key];
       
@@ -107,10 +103,10 @@ test ('coderbyte challenge number 2', async({ request }) => {
         }
       
         const modifiedString = JSON.stringify(responseBody);
-        console.log(modifiedString);
+        console.log(typeof modifiedString); //string
       });
       
-      function removeEmptyValues(obj) {
+      function removeEmptyValues(obj:object) {
         const keys = Object.keys(obj);
       
         for (const key of keys) {
@@ -132,3 +128,10 @@ test ('coderbyte challenge number 2', async({ request }) => {
 ///////////////
 
 
+test ('coderbyte challenge number 2 simpler one', async({ request }) => {
+  const responseBody = await helpers.apiGet(request, 'https://coderbyte.com/api/challenges/json/json-cleaning');
+  const modifiedResponse = removeEmptyValues(responseBody);
+  console.log(Array.from(Object.entries(modifiedResponse)));  //modifiedResponse is an object, we log it as an Array
+
+
+});
