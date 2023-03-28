@@ -53,6 +53,5 @@ export function removeEmptyValues(obj) {
         obj[key] = removeEmptyValues(value);
       }
     }
-  
     return obj;
   }
