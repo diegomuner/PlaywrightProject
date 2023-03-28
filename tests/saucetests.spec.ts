@@ -10,7 +10,6 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms)) //implicit w
 
 // Login Tests
 
-
 /// SHARE PAGE OBJECT ACROSS MULTIPLE TESTS
 test.describe('one browser instance tests', () => { 
 
@@ -70,7 +69,6 @@ test('login to swag labs successfully', async ({page},testInfo) => {
 
 // HomePage Tests
 
-
 //2nd suite
 test.describe('cart tests', () => { 
 
@@ -127,14 +125,10 @@ test ('checkout with faker data and all products', async ({page}) =>{
     await swagLabsCheckout.verifyInCheckout();
     await swagLabsCheckout.completeCheckOutInfo(userData.firstName, userData.lastName, userData.zipCode);
     await swagLabsCheckout.continueCheckout();
-
     await expect(swagLabsCheckout.checkOutCancel).toBeVisible();
     await swagLabsCheckout.verifyTotalAmount();
     await swagLabsCheckout.verifyTaxAndTotal();
     await swagLabsCheckout.finishCheckout();
-   
-
-
 });
 
 

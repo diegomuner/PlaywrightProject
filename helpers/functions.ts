@@ -20,7 +20,7 @@ export async function apiGet(request: APIRequestContext, url: string){
 
 }
 
-// Generate test data with Faker
+// Generate test data with Faker 
 export function generateUserData(){
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();
@@ -37,7 +37,7 @@ export async function getNumberFromString(text:string){
 }
 
 
-//function for coderbyte challenge 2
+//Function for coderbyte challenge 2 
 export function removeEmptyValues(obj) {
     const keys = Object.keys(obj);
   
