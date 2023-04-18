@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page, chromium } from '@playwright/test';
 const fs = require('fs');
 const PNG = require('pngjs').PNG;
 const pixelmatch = require('pixelmatch');
@@ -19,7 +19,11 @@ const options = {
     //quality: 100, // or another fixed value
   };
 
-test('compare screenshots using pixelmatch', async ({page},testInfo) => {
+test('compare screenshots using pixelmatch', async () => {
+
+    const browser = await chromium.launch();
+    const context = await browser.newContext();
+    const page = await context.newPage();
     
     // Check if a baseline screenshot already exists
     const baselineExists = fs.existsSync(baselinePath);
