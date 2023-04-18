@@ -60,7 +60,14 @@ test('compare screenshots using pixelmatch', async ({page},testInfo) => {
      const newImage = PNG.sync.read(newData);
  
      // Compare the images using pixelmatch
-     const diff = pixelmatch(baselineImage.data, newImage.data, null, baselineImage.width, baselineImage.height, { threshold: 0.1 });
+     const diff = pixelmatch(
+        baselineImage.data,
+        newImage.data,
+        null,
+        baselineImage.width,
+        baselineImage.height,
+        { threshold: 0.1, includeAA: true, diffMask: true, samedimensions: true }
+    );
  
      // Check if the images match or not
      if (diff === 0) {
