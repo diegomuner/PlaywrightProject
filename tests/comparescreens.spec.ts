@@ -2,20 +2,21 @@ import { test, expect, Page } from '@playwright/test';
 const fs = require('fs');
 const PNG = require('pngjs').PNG;
 const pixelmatch = require('pixelmatch');
-
+const workspacePath = process.env.GITHUB_WORKSPACE;
 // Define the paths for the baseline and new screenshots
-const baselinePath = 'baseline.png';
+const baselinePath = `${workspacePath}/screenshots/baseline.png`;
 const options = {
-    path: 'baseline.png',
+
+    path: `${workspacePath}/screenshots/baseline.png`,
     omitBackground: true,
     fullPage: true,
-    quality: 100, // or another fixed value
+   // quality: 100, // or another fixed value
   };
   const options1 = {
-    path: 'new.png',
+    path: `${workspacePath}/screenshots/new.png`,
     omitBackground: true,
     fullPage: true,
-    quality: 100, // or another fixed value
+    //quality: 100, // or another fixed value
   };
 
 test('compare screenshots using pixelmatch', async ({page},testInfo) => {
@@ -33,8 +34,8 @@ test('compare screenshots using pixelmatch', async ({page},testInfo) => {
     await page.screenshot(options1);
 
      // Load the baseline and new screenshots from files
-    const baselineData = fs.readFileSync('baseline.png');
-    const newData = fs.readFileSync('new.png');
+    const baselineData = fs.readFileSync(`${workspacePath}/screenshots/baseline.png`);
+    const newData = fs.readFileSync(`${workspacePath}/screenshots/new.png`);
     const baselineImage = PNG.sync.read(baselineData);
     const newImage = PNG.sync.read(newData);
 
@@ -52,10 +53,10 @@ test('compare screenshots using pixelmatch', async ({page},testInfo) => {
 
     // Navigate to a different page and take a new screenshot
     await page.goto('https://www.google.com');
-    await page.screenshot({ path: 'new.png' });
+    await page.screenshot(options1);
      // Load the baseline and new screenshots from files
-     const baselineData = fs.readFileSync('baseline.png');
-     const newData = fs.readFileSync('new.png');
+     const baselineData = fs.readFileSync(`${workspacePath}/screenshots/baseline.png`);
+     const newData = fs.readFileSync(`${workspacePath}/screenshots/new.png`);
      const baselineImage = PNG.sync.read(baselineData);
      const newImage = PNG.sync.read(newData);
  
