@@ -61,20 +61,19 @@ test('compare screenshots using pixelmatch', async ({page},testInfo) => {
  
      // Compare the images using pixelmatch
      const diff = pixelmatch(
-        baselineImage.data,
-        newImage.data,
-        null,
-        baselineImage.width,
-        baselineImage.height,
-        { threshold: 0.1, includeAA: true, diffMask: true, samedimensions: true,debug: true }
-    );
+    baselineImage.data,
+    newImage.data,
+    null,
+    baselineImage.width,
+    baselineImage.height,
+    { threshold:0.1, includeAA: true, diffMask: true, samedimensions: true }
+);
  
      // Check if the images match or not
      if (diff === 0) {
      console.log('Screenshots match');
      } else {
      console.log('Screenshots do not match');
-     fs.writeFileSync('diff.png', PNG.sync.write('diffData.png'));
 
 }}
 
