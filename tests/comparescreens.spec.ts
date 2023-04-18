@@ -5,8 +5,18 @@ const pixelmatch = require('pixelmatch');
 
 // Define the paths for the baseline and new screenshots
 const baselinePath = 'baseline.png';
-
-
+const options = {
+    path: 'baseline.png',
+    omitBackground: true,
+    fullPage: true,
+    quality: 100, // or another fixed value
+  };
+  const options1 = {
+    path: 'new.png',
+    omitBackground: true,
+    fullPage: true,
+    quality: 100, // or another fixed value
+  };
 
 test('compare screenshots using pixelmatch', async ({page},testInfo) => {
     
@@ -16,11 +26,11 @@ test('compare screenshots using pixelmatch', async ({page},testInfo) => {
     if (!baselineExists) {
         console.log('baseline was not there')
     await page.goto('https://www.google.com');
-    await page.screenshot({ path: 'baseline.png' });
+    await page.screenshot(options);
 
      // Navigate to a different page and take a new screenshot
     await page.goto('https://www.google.com');
-    await page.screenshot({ path: 'new.png' });
+    await page.screenshot(options1);
 
      // Load the baseline and new screenshots from files
     const baselineData = fs.readFileSync('baseline.png');
