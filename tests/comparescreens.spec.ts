@@ -66,7 +66,7 @@ test('compare screenshots using pixelmatch', async ({page},testInfo) => {
         null,
         baselineImage.width,
         baselineImage.height,
-        { threshold: 0.1, includeAA: true, diffMask: true, samedimensions: true }
+        { threshold: 0.1, includeAA: true, diffMask: true, samedimensions: true,debug: true }
     );
  
      // Check if the images match or not
@@ -74,6 +74,7 @@ test('compare screenshots using pixelmatch', async ({page},testInfo) => {
      console.log('Screenshots match');
      } else {
      console.log('Screenshots do not match');
+     fs.writeFileSync('diff.png', PNG.sync.write('diffData.png'));
 
 }}
 
