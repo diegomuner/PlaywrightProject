@@ -1,50 +1,45 @@
-import { test, expect, Page, chromium } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
+import * as helpers from '../helpers/functions';
 const fs = require('fs');
 const PNG = require('pngjs').PNG;
 const pixelmatch = require('pixelmatch');
-const workspacePath = process.env.GITHUB_WORKSPACE;
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms)) //implicit waits at class level so we can use delay(ms) when needed.
 // Define the paths for the baseline and new screenshots
-const baselinePath = `${workspacePath}/screenshots/baseline.png`;
-const options = {
+const baselinePath = 'baseline.png';
 
-    path: `${workspacePath}/screenshots/baseline.png`,
-    omitBackground: true,
-    fullPage: true,
-   // quality: 100, // or another fixed value
-  };
-  const options1 = {
-    path: `${workspacePath}/screenshots/new.png`,
-    omitBackground: true,
-    fullPage: true,
-    //quality: 100, // or another fixed value
-  };
 
-test('compare screenshots using pixelmatch', async () => {
 
-    const browser = await chromium.launch();
-    const context = await browser.newContext();
-    const page = await context.newPage();
+test.skip('compare screenshots using pixelmatch', async ({page},testInfo) => {
     
     // Check if a baseline screenshot already exists
     const baselineExists = fs.existsSync(baselinePath);
 
     if (!baselineExists) {
         console.log('baseline was not there')
-    await page.goto('https://www.google.com');
-    await page.screenshot(options);
+    await page.goto('https://charts.livegap.com/app.php?lan=es&gallery=line');
+    await delay(5000);
+    const elementHandle = await page.$('#canvas');
+    const screenshotOptions = { clip: await elementHandle.boundingBox(),path: 'baseline.png' };
+    
+
+    await page.screenshot(screenshotOptions);
 
      // Navigate to a different page and take a new screenshot
-    await page.goto('https://www.google.com');
-    await page.screenshot(options1);
+    await page.goto('https://charts.livegap.com/app.php?lan=es&gallery=line');
+    await delay(5000);
+    const elementHandleLast = await page.$('#canvas');
+    const screenshotOptionsLast = { clip: await elementHandleLast.boundingBox(),path: 'new.png' };    
+
+    await page.screenshot(screenshotOptionsLast);
 
      // Load the baseline and new screenshots from files
-    const baselineData = fs.readFileSync(`${workspacePath}/screenshots/baseline.png`);
-    const newData = fs.readFileSync(`${workspacePath}/screenshots/new.png`);
+    const baselineData = fs.readFileSync('baseline.png');
+    const newData = fs.readFileSync('new.png');
     const baselineImage = PNG.sync.read(baselineData);
     const newImage = PNG.sync.read(newData);
 
     // Compare the images using pixelmatch
-    const diff = pixelmatch(baselineImage.data, newImage.data, null, baselineImage.width, baselineImage.height, { threshold: 0.1 });
+    const diff = pixelmatch(baselineImage.data, newImage.data, null, baselineImage.width, baselineImage.height, { threshold: 0.1,samedimensions: true});
 
     // Check if the images match or not
     if (diff === 0) {
@@ -56,23 +51,20 @@ test('compare screenshots using pixelmatch', async () => {
     console.log('baseline was there')
 
     // Navigate to a different page and take a new screenshot
-    await page.goto('https://www.google.com');
-    await page.screenshot(options1);
+    await page.goto('https://charts.livegap.com/app.php?lan=es&gallery=line');
+    await delay(5000);
+    const elementHandleLast = await page.$('#canvas');
+    const screenshotOptionsLast = { clip: await elementHandleLast.boundingBox(),path: 'new.png' };    
+
+    await page.screenshot(screenshotOptionsLast);
      // Load the baseline and new screenshots from files
-     const baselineData = fs.readFileSync(`${workspacePath}/screenshots/baseline.png`);
-     const newData = fs.readFileSync(`${workspacePath}/screenshots/new.png`);
+     const baselineData = fs.readFileSync('baseline.png');
+     const newData = fs.readFileSync('new.png');
      const baselineImage = PNG.sync.read(baselineData);
      const newImage = PNG.sync.read(newData);
  
      // Compare the images using pixelmatch
-     const diff = pixelmatch(
-    baselineImage.data,
-    newImage.data,
-    null,
-    baselineImage.width,
-    baselineImage.height,
-    { threshold:0.1, includeAA: true, diffMask: true, samedimensions: true }
-);
+     const diff = pixelmatch(baselineImage.data, newImage.data, null, baselineImage.width, baselineImage.height, {threshold: 0.1,samedimensions: true });
  
      // Check if the images match or not
      if (diff === 0) {
@@ -85,3 +77,16 @@ test('compare screenshots using pixelmatch', async () => {
 }); 
 
 
+
+const filterA:Array<String> = ['filter1', 'filter2', 'filter3', 'filter4'];
+
+test('test', async ({page},testInfo) => {
+
+let index = helpers.randomArrayIndex(filterA);
+let filterSelection = filterA[index];
+
+console.log(filterSelection);
+
+
+
+});

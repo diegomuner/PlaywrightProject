@@ -56,3 +56,10 @@ export function removeEmptyValues(obj) {
     
     return obj;
   }
+
+
+
+  export function randomArrayIndex(arr:Array<any>){
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    return randomIndex;
+    }
