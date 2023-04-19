@@ -2,7 +2,6 @@ import { test, expect, Page } from '@playwright/test';
 import * as helpers from '../helpers/functions';
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms)) //implicit waits at class level so we can use delay(ms) when needed.
 
-
 //This is just a test that declares an array which are the options in a filter, then randoms an index and selects that option from the dropdown
 test('test dropdown picks', async ({page}) => {
     let dropdownOptions = ['option1','option2']
@@ -19,7 +18,6 @@ test('test dropdown picks', async ({page}) => {
     }
 
 })
-
 //This test is to work with checkboxes, check if they are selected, and check them, then uncheck etc
 test('test checkboxes', async ({page}) => {
     await page.goto('https://the-internet.herokuapp.com/checkboxes');
@@ -45,5 +43,4 @@ test('test checkboxes', async ({page}) => {
     await checkbox2.click();
     expect(await checkbox1.isChecked()).toBe(false);
     expect(await checkbox2.isChecked()).toBe(false);
-
 });
