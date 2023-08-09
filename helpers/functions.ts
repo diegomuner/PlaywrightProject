@@ -63,3 +63,16 @@ export function removeEmptyValues(obj) {
     const randomIndex = Math.floor(Math.random() * arr.length);
     return randomIndex;
     }
+
+
+
+    // just checking some typescript
+    type TestDto = {
+      foo: number;
+      bar: string;
+      lol: Record<string, string>;
+
+    }
+
+
+    type TestDtoPrimitives = Pick<TestDto, 'foo'|'bar'>
