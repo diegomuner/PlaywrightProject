@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 
 /**
  * Read environment variables from file.
@@ -9,7 +9,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+const config: PlaywrightTestConfig = ({
   testDir: './tests',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
@@ -29,7 +29,12 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    ['dot'],
+    ["json",{
+      outputFile:'jsonReports/jsonReport.json'
+  }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
 
@@ -108,3 +113,4 @@ export default defineConfig({
 
   
 });
+export default config;

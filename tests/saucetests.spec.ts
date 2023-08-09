@@ -59,7 +59,7 @@ test.describe('one browser instance tests', () => {
 
 
 // Regular isolated test
-test('login to swag labs successfully', async ({page},testInfo) => {
+test('login to swag labs successfully', async ({page}, testInfo) => {
     const swagLabsLogin = new SwagLabsLogin(page);
     await swagLabsLogin.goto();
     await swagLabsLogin.login('standard_user',password);
