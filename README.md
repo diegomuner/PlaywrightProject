@@ -2,10 +2,6 @@ Project to Ramp Up Automation with Playwright
 
 Main reference document: https://playwright.dev/docs/intro
 
-
-Trello Board to Track progress:
-https://trello.com/b/XnPThDOn/playwright-project
-
 Public Repo:
 https://github.com/diegomuner/PlaywrightProject
 
