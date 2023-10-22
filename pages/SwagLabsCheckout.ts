@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { SwagLabsBasePage } from './SwagLabsBasePage';
-import { CartItem } from './../data/cart-item.interface';
+import { CartItem } from '../data/cart-item.interface';
 import * as helpers from '../helpers/functions';
 
 export class SwagLabsCheckout extends SwagLabsBasePage{

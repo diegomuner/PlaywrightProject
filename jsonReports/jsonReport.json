@@ -74,18 +74,18 @@
     "shard": null,
     "updateSnapshots": "missing",
     "version": "1.31.2",
-    "workers": 12,
+    "workers": 1,
     "webServer": null
   },
   "suites": [
     {
-      "title": "nopomtests.spec.ts",
-      "file": "nopomtests.spec.ts",
+      "title": "myPageTests.spec..ts",
+      "file": "myPageTests.spec..ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "Login with standard_user",
+          "title": "has title",
           "ok": true,
           "tags": [],
           "tests": [
@@ -98,17 +98,17 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 3786,
+                  "duration": 16993,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2023-04-26T13:25:02.525Z",
+                  "startTime": "2023-10-22T19:18:39.420Z",
                   "attachments": [
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "c:\\PlaywrightProject\\test-results\\nopomtests-Login-with-standard-user-chromium\\trace.zip"
+                      "path": "c:\\PlaywrightProject\\test-results\\myPageTests.spec..ts-has-title-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -116,47 +116,10 @@
               "status": "expected"
             }
           ],
-          "id": "a9911bf8bf1105969946-393d73779296c751a556",
-          "file": "nopomtests.spec.ts",
-          "line": 20,
-          "column": 9
-        },
-        {
-          "title": "Login with locked_out_user",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "status": "passed",
-                  "duration": 3753,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2023-04-26T13:25:02.526Z",
-                  "attachments": [
-                    {
-                      "name": "trace",
-                      "contentType": "application/zip",
-                      "path": "c:\\PlaywrightProject\\test-results\\nopomtests-Login-with-locked-out-user-chromium\\trace.zip"
-                    }
-                  ]
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "a9911bf8bf1105969946-215d8c7755556f70b99b",
-          "file": "nopomtests.spec.ts",
-          "line": 20,
-          "column": 9
+          "id": "bd3239a2265332d78545-68d454e32ff8d8a714f5",
+          "file": "myPageTests.spec..ts",
+          "line": 15,
+          "column": 7
         }
       ]
     }
